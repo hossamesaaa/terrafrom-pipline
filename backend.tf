@@ -3,7 +3,8 @@ terraform {
     bucket         = "terrafrom-statefile"
     key            = "terraform.tfstate"
     region         = "us-east-1"
-    #profile        = "iti"
+    profile        = "default"
+    shared_credentials_file= credentials
     dynamodb_table = "terrafrom-tfstate"
   }
 }
