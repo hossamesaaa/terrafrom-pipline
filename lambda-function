@@ -1,0 +1,42 @@
+
+import boto3
+from botocore.exceptions import ClientError
+
+ses = boto3.client('ses')
+
+def lambda_handler(event, context):
+
+    sender_email = 'hossamesaa2019@gmail.com'
+    recipient_email = 'hossamesaa2019@gmail.com'
+    subject = 'state file status'
+    body_text = 'thanks to note that your state file has been changed.'
+
+    try:
+        response = ses.send_email(
+            Source=sender_email,
+            Destination={
+                'ToAddresses': [recipient_email],
+            },
+            Message={
+                'Subject': {'Data': subject},
+                'Body': {
+                    'Text': {'Data': body_text},
+                },
+            },
+        )
+        print(" Message ID:", response['MessageId'])
+    except ClientError as e:
+        print("Error sending email:", e)
+        return {
+            'statusCode': 500,
+            'body': 'Error sending email',
+        }
+
+    return {
+        'statusCode': 200,
+        'body': 'Email sent successfully',
+    }
+
+
+
+
